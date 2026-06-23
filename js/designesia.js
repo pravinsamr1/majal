@@ -7,7 +7,7 @@
 
     'use strict';
 
-     var rtl_mode = 'off'; // on - for enable RTL, off - for deactive RTL
+     var rtl_mode = localStorage.getItem('rtl_mode') || 'off'; // on - for enable RTL, off - for deactive RTL
      var preloader = 'on'; // on - for enable preloader, off - for disable preloader
      var header_autoshow = "on"; // on - for enable fixed header, off - for disable fixed header
      var topbar = "on"; // on - for enable fixed header, off - for disable fixed header
@@ -1037,15 +1037,41 @@
      }
      
      // rtl begin //
-      if (rtl_mode==="on") {
-            jQuery("body").addClass('rtl');
-            jQuery("#bootstrap").attr("href", 'css/bootstrap.rtl.min.css');
-            jQuery("#bootstrap-grid").attr("href", 'css/bootstrap-grid.rtl.min.css');
-            jQuery("#bootstrap-reboot").attr("href", 'css/bootstrap-reboot.rtl.min.css');
-            jQuery("#mdb").attr("href", 'css/mdb.rtl.min.css');
-            jQuery('html').attr("dir","rtl")
-        };
-     // rtl end // 
+       if (rtl_mode==="on") {
+             jQuery("body").addClass('rtl');
+             jQuery("#bootstrap").attr("href", 'css/bootstrap.rtl.min.css');
+             jQuery("#bootstrap-grid").attr("href", 'css/bootstrap-grid.rtl.min.css');
+             jQuery("#bootstrap-reboot").attr("href", 'css/bootstrap-reboot.rtl.min.css');
+             jQuery("#mdb").attr("href", 'css/mdb.rtl.min.css');
+             jQuery('html').attr("dir","rtl");
+             jQuery("#rtl-toggle span").text('English');
+         } else {
+             jQuery("#rtl-toggle span").text('Arabic');
+         };
+
+      jQuery("#rtl-toggle").on("click", function(e) {
+          e.preventDefault();
+          if (jQuery("body").hasClass('rtl')) {
+              jQuery("body").removeClass('rtl');
+              jQuery("#bootstrap").attr("href", 'css/bootstrap.min.css');
+              jQuery("#bootstrap-grid").attr("href", 'css/bootstrap-grid.min.css');
+              jQuery("#bootstrap-reboot").attr("href", 'css/bootstrap-reboot.min.css');
+              jQuery("#mdb").attr("href", 'css/mdb.min.css');
+              jQuery('html').attr("dir","ltr");
+              localStorage.setItem('rtl_mode', 'off');
+              jQuery(this).find("span").text('Arabic');
+          } else {
+              jQuery("body").addClass('rtl');
+              jQuery("#bootstrap").attr("href", 'css/bootstrap.rtl.min.css');
+              jQuery("#bootstrap-grid").attr("href", 'css/bootstrap-grid.rtl.min.css');
+              jQuery("#bootstrap-reboot").attr("href", 'css/bootstrap-reboot.rtl.min.css');
+              jQuery("#mdb").attr("href", 'css/mdb.rtl.min.css');
+              jQuery('html').attr("dir","rtl");
+              localStorage.setItem('rtl_mode', 'on');
+              jQuery(this).find("span").text('English');
+          }
+      });
+      // rtl end //
 
      if(preloader==="off"){
             jQuery("#de-loader").hide();
